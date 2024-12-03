@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "aoc"
+version = "2024"
+description = ""
+authors = ["Andrew Bjonnes <andrew@abjonnes.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+click = "^8.1.7"
+egcd = "^0.5.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+
+[tool.black]
+line-length = 100
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+aoc = "aoc:aoc"
