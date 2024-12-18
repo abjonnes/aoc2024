@@ -40,12 +40,34 @@ def run_part(part, data):
     return part(**args)
 
 
+def set_up_profiling():
+    import atexit
+    import cProfile
+    import io
+    import pstats
+
+    pr = cProfile.Profile()
+    pr.enable()
+
+    def exit():
+        pr.disable()
+        s = io.StringIO()
+        pstats.Stats(pr, stream=s).sort_stats("cumulative").print_stats()
+        print(s.getvalue())
+
+    atexit.register(exit)
+
+
 @click.command()
+@click.option("--profile", is_flag=True)
 @click.argument("day", type=int, required=True)
-def aoc(day):
+def aoc(profile, day):
     module = import_module(f"aoc.day{day}")
 
     data = get_input(day)
+
+    if profile:
+        set_up_profiling()
 
     try:
         print(f"Part 1: {format_output(run_part(module.part1, data))}")
